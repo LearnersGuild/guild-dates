@@ -7,19 +7,52 @@
 
 ## Getting Started
 
-1. Fork and clone the repository.
-
-2. Install and run:
+1. Install the module:
 
     ```bash
-    npm install
+    npm install --save @learnersguild/guild-dates
     ```
 
-3. If you are submitting changes, be sure to write new tests and ensure no regressions!
+2. Use the APIs, e.g.:
 
     ```bash
-    npm test
-    ```
+    $ node
+    > var guildDates = require('@learnersguild/guild-dates')
+    > guildDates
+    { summerBreakWeekMonday: [Getter],
+      winterBreakWeekMonday: [Getter],
+      summerBreakWeekDays: [Getter],
+      winterBreakWeekDays: [Getter],
+      breakWeekDaysBetween: [Getter],
+      isDuringBreakWeek: [Getter],
+      newYearsDay: [Getter],
+      mlkJrDay: [Getter],
+      presidentsDay: [Getter],
+      cesarChavezDay: [Getter],
+      memorialDay: [Getter],
+      independenceDay: [Getter],
+      laborDay: [Getter],
+      indigenousPeoplesDay: [Getter],
+      veteransDay: [Getter],
+      thanksgivingDay: [Getter],
+      thanksgivingFriday: [Getter],
+      christmasEve: [Getter],
+      christmasDay: [Getter],
+      holidaysBetween: [Getter],
+      isHoliday: [Getter],
+      nextStartDate: [Getter],
+      defaultStartDate: [Getter],
+      MAX_PROGRAM_WEEKS: [Getter],
+      CANCELLATION_WEEKS: [Getter],
+      expectedExitDate: [Getter],
+      defaultExpectedExitDate: [Getter],
+      isaCancellationDate: [Getter],
+      defaultISACancellationDate: [Getter],
+      stipendPaymentDatesBetween: [Getter],
+      momentDayOnly: [Getter],
+      formatDate: [Getter],
+      throwsIfInvalidDate: [Getter] }
+      ```
 
 ## Key Dependencies`
 
