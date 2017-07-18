@@ -1,6 +1,6 @@
 # guild-dates
 
-[ ![Codeship Status](https://app.codeship.com/projects/50f27480-4e32-0135-d0e4-669f3827cd30/status?branch=master)
+[![Codeship Status](https://app.codeship.com/projects/50f27480-4e32-0135-d0e4-669f3827cd30/status?branch=master)](https://app.codeship.com/projects/233552)
 [![Code Climate GPA](https://codeclimate.com/github/LearnersGuild/guild-dates/badges/gpa.svg)](https://codeclimate.com/github/LearnersGuild/guild-dates)
 [![Code Climate Issue Count](https://codeclimate.com/github/LearnersGuild/guild-dates/badges/issue_count.svg)](https://codeclimate.com/github/LearnersGuild/guild-dates)
 [![Test Coverage](https://codeclimate.com/github/LearnersGuild/guild-dates/badges/coverage.svg)](https://codeclimate.com/github/LearnersGuild/guild-dates/coverage)
