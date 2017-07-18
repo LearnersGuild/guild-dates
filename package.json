@@ -1,0 +1,83 @@
+{
+  "name": "guild-dates",
+  "version": "0.1.0",
+  "engines": {
+    "node": "7.7.4"
+  },
+  "scripts": {
+    "build": "npm run clean && ./node_modules/.bin/babel -d lib/ src/",
+    "clean": "./node_modules/.bin/rimraf ./lib/*",
+    "prepublish": "npm run build && npm test",
+    "2npm": "./node_modules/.bin/publish",
+    "test:cov": "npm run test:cov:run && npm run test:cov:send",
+    "test:cov:run": "./node_modules/.bin/nyc --reporter=lcov npm run test:run",
+    "test:cov:send": "./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info",
+    "test:lint": "./node_modules/.bin/xo",
+    "test:run": "NODE_ENV=test ./node_modules/.bin/tape -r babel-register '!(node_modules)/__tests__/*.test.js' | ./node_modules/.bin/tap-spec",
+    "test": "npm run build && npm run test:lint && npm run test:run"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "moment": "^2.18.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "codeclimate-test-reporter": "^0.5.0",
+    "eslint": "^4.2.0",
+    "eslint-config-xo": "^0.18.2",
+    "nyc": "^11.0.3",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.7.0",
+    "xo": "^0.18.2"
+  },
+  "xo": {
+    "extends": "xo",
+    "ignore": [
+      "lib/**"
+    ],
+    "rules": {
+      "capitalized-comments": 0,
+      "comma-dangle": [
+        0
+      ],
+      "import/named": 1,
+      "import/no-dynamic-require": 1,
+      "import/no-extraneous-dependencies": 0,
+      "import/no-unresolved": 0,
+      "import/prefer-default-export": 1,
+      "no-mixed-operators": [
+        0
+      ],
+      "no-negated-condition": [
+        0
+      ],
+      "no-unused-vars": [
+        2,
+        {
+          "argsIgnorePattern": "_"
+        }
+      ],
+      "no-use-extend-native/no-use-extend-native": [
+        0
+      ],
+      "object-property-newline": [
+        0
+      ],
+      "quotes": [
+        2,
+        "single",
+        "avoid-escape"
+      ],
+      "unicorn/filename-case": 0,
+      "unicorn/no-abusive-eslint-disable": 0,
+      "xo/catch-error-name": 0,
+      "xo/filename-case": 0
+    },
+    "esnext": true,
+    "space": true,
+    "semicolon": false
+  }
+}
