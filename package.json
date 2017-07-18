@@ -1,7 +1,8 @@
 {
   "name": "@learnersguild/guild-dates",
   "description": "Holidays, break weeks, and special program dates for Learners Guild.",
-  "version": "0.1.3",
+  "version": "0.2.0",
+  "main": "/lib",
   "engines": {
     "node": "7.7.4"
   },
