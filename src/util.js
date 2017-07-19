@@ -22,3 +22,11 @@ export const throwsIfInvalidDate = func => {
     ttt.throws(() => func('xyz'))
   }
 }
+
+export const throwsIfInvalidDates = func => {
+  return ttt => {
+    ttt.plan(2)
+    ttt.throws(() => func('xyz', new Date()))
+    ttt.throws(() => func(new Date(), 'xyz'))
+  }
+}

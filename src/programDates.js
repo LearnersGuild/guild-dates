@@ -1,10 +1,16 @@
 import {momentDayOnly} from './util'
-import {isHoliday} from './holidays'
 import {
+  holidaysBetween,
+  isHoliday,
+} from './holidays'
+import {
+  breakWeekDaysBetween,
   summerBreakWeekMonday,
   winterBreakWeekMonday,
   isDuringBreakWeek,
 } from './breakWeeks'
+
+// --- start dates
 
 const _legacyStartDates = [
   momentDayOnly('2016-07-11'),
@@ -59,6 +65,8 @@ export const nextStartDate = (date = new Date()) => {
 }
 export const defaultStartDate = nextStartDate()
 
+// --- exit dates
+
 export const MAX_PROGRAM_WEEKS = 40
 export const CANCELLATION_WEEKS = 5
 
@@ -87,6 +95,37 @@ export const expectedExitDate = startDate => {
 }
 export const defaultExpectedExitDate = expectedExitDate(defaultStartDate)
 
+// --- open vs. closed dates
+
+export const closedDaysBetween = (startDate, endDate) => {
+  return holidaysBetween(startDate, endDate)
+    .concat(breakWeekDaysBetween(startDate, endDate))
+    .sort((a, b) => a - b)
+    .map(date => date.toISOString())
+    .filter((dateStr, index, arr) => arr.indexOf(dateStr) === index)
+    .map(dateStr => new Date(dateStr))
+}
+
+export const openDaysBetween = (startDate, endDate) => {
+  const start = momentDayOnly(startDate)
+  const end = momentDayOnly(endDate)
+  const openDays = []
+  while (start.isSameOrBefore(end)) {
+    if (
+      start.day() > 0 &&
+      start.day() < 6 &&
+      !isHoliday(start) &&
+      !isDuringBreakWeek(start)
+    ) {
+      openDays.push(start.clone())
+    }
+    start.add(1, 'day')
+  }
+  return openDays.map(m => m.toDate())
+}
+
+// --- ISA dates
+
 export const isaCancellationDate = startDate => {
   return _addProgramWeeks(momentDayOnly(startDate), CANCELLATION_WEEKS)
     .clone()
@@ -94,6 +133,31 @@ export const isaCancellationDate = startDate => {
     .toDate()
 }
 export const defaultISACancellationDate = isaCancellationDate(defaultStartDate)
+
+export const PER_SESSION_WEEKS = 8
+
+export const isaSessionStartDate = (startDate, sessionIdx = 0) => {
+  return _addProgramWeeks(momentDayOnly(startDate), sessionIdx * PER_SESSION_WEEKS)
+    .clone()
+    .day('Monday')
+    .toDate()
+}
+
+export const isaSessionEndDate = (startDate, sessionIdx = 0) => {
+  return _addProgramWeeks(momentDayOnly(startDate), (sessionIdx + 1) * PER_SESSION_WEEKS - 1)
+    .clone()
+    .day('Friday')
+    .toDate()
+}
+
+export const numDaysPerISASession = (startDate, sessionIdx = 0) => {
+  const sessStart = momentDayOnly(isaSessionStartDate(startDate, sessionIdx))
+  const sessEnd = momentDayOnly(isaSessionEndDate(startDate, sessionIdx))
+  const openDays = openDaysBetween(sessStart, sessEnd)
+  return openDays.length
+}
+
+// --- stipend payment dates
 
 const _stipendConfig = {
   numWeeksBetweenPayments: 2,
