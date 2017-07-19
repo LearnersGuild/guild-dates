@@ -150,7 +150,7 @@ export const isaSessionEndDate = (startDate, sessionIdx = 0) => {
     .toDate()
 }
 
-export const numDaysPerISASession = (startDate, sessionIdx = 0) => {
+export const numDaysInISASession = (startDate, sessionIdx = 0) => {
   const sessStart = momentDayOnly(isaSessionStartDate(startDate, sessionIdx))
   const sessEnd = momentDayOnly(isaSessionEndDate(startDate, sessionIdx))
   const openDays = openDaysBetween(sessStart, sessEnd)

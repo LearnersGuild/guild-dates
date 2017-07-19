@@ -14,7 +14,7 @@ import {
   isaCancellationDate,
   isaSessionStartDate,
   isaSessionEndDate,
-  numDaysPerISASession,
+  numDaysInISASession,
   stipendPaymentDatesBetween,
 } from '../programDates'
 
@@ -119,12 +119,12 @@ test('src/programDates', t => {
     })
   })
 
-  t.test('numDaysPerISASession', tt => {
-    tt.test('throws if the given start date is not a date', throwsIfInvalidDate(numDaysPerISASession))
+  t.test('numDaysInISASession', tt => {
+    tt.test('throws if the given start date is not a date', throwsIfInvalidDate(numDaysInISASession))
 
     tt.test('returns the number of days in the session (0 indexed) for a given program start date', ttt => {
       ttt.plan(1)
-      const numDays = numDaysPerISASession(new Date('2016-10-03'), 0)
+      const numDays = numDaysInISASession(new Date('2016-10-03'), 0)
       ttt.equal(numDays, 36, 'should exclude Indigenous People\'s Day, Veteran\'s Day, and the Thanksgiving holidays')
     })
   })
