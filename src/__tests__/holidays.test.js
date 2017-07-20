@@ -273,7 +273,8 @@ test('src/holidays', t => {
     tt.test('throws if the given date is not a date', throwsIfInvalidDate(isHoliday))
 
     tt.test('returns true if the given date is a holiday', ttt => {
-      ttt.plan(3)
+      ttt.plan(4)
+      ttt.true(isHoliday('2017-05-29'), 'should consider Memorial Day a holiday')
       ttt.true(isHoliday('2017-09-04'), 'should consider Labor Day a holiday')
       ttt.true(isHoliday('2019-12-24'), 'should consider Christmas Eve a holiday')
       ttt.true(isHoliday('2022-03-31'), 'should consider Cesar Chavez Day a holiday')

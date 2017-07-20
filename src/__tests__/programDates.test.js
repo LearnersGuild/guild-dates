@@ -73,11 +73,16 @@ test('src/programDates', t => {
   t.test('openDaysBetween', tt => {
     tt.test('throws if the given dates are not dates', throwsIfInvalidDates(closedDaysBetween))
 
-    tt.test('returns the days the guild is open between two dates', ttt => {
+    tt.test('returns the days the guild is open without holidays', ttt => {
       ttt.plan(1)
       const openDays = openDaysBetween(momentDayOnly('2017-12-25'), momentDayOnly('2018-01-04'))
-      console.log({openDays})
       ttt.equal(openDays.length, 3, 'should not include Christmas break days or New Years Day')
+    })
+
+    tt.test('returns the days the guild is open without holidays or break week days', ttt => {
+      ttt.plan(1)
+      const openDays = openDaysBetween(momentDayOnly('2017-05-22'), momentDayOnly('2017-07-21'))
+      ttt.equal(openDays.length, 38, 'should not include summer break or Memorial Day')
     })
   })
 

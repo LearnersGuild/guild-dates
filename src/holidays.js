@@ -62,12 +62,12 @@ export const cesarChavezDay = date => _holidayForDate(2, 31, date)
 
 // Memorial Day	                        Last Monday in May
 export const memorialDay = date => {
-  const memDay = momentDayOnly(_holidayForNthWeekdayOccurence(4, 4, 1, date))
+  // since it falls on the last Monday, we'll take the first Monday of June and
+  // subtract a week (since we don't know if there are 4 or 5 Mondays)
+  const memDay = momentDayOnly(_holidayForNthWeekdayOccurence(5, 1, 1, date))
+  memDay.subtract(1, 'weeks')
 
-  // if there are 5 Mondays, add a week
-  memDay.add(memDay.date() < 25 ? 1 : 0, 'weeks')
-
-  return memDay
+  return memDay.toDate()
 }
 
 // Independence Day	                    July 4

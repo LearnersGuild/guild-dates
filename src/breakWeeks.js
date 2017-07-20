@@ -36,7 +36,7 @@ const _weekdaysForMonday = mon => {
 export const summerBreakWeekMonday = date => {
   const input = momentDayOnly(date)
   const summer2017BreakWeekMonday = momentDayOnly('2017-06-12')
-  return input.isBefore(summer2017BreakWeekMonday) ?
+  return input.year() === summer2017BreakWeekMonday.year() ?
     summer2017BreakWeekMonday :
     _lastFullWeekOfMonthMonday(5, date)
 }
