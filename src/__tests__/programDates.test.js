@@ -68,6 +68,12 @@ test('src/programDates', t => {
       const closedDays = closedDaysBetween(momentDayOnly('2017-11-20'), momentDayOnly('2017-12-31'))
       ttt.equal(closedDays.length, 7, 'should include Thanksgiving and Christmas break days')
     })
+
+    tt.test('should include the special 2017-07-03 holiday', ttt => {
+      ttt.plan(1)
+      const closedDays = closedDaysBetween(momentDayOnly('2017-05-22'), momentDayOnly('2017-07-21'))
+      ttt.equal(closedDays.length, 8, 'should include Thanksgiving and Christmas break days')
+    })
   })
 
   t.test('openDaysBetween', tt => {
@@ -79,10 +85,10 @@ test('src/programDates', t => {
       ttt.equal(openDays.length, 3, 'should not include Christmas break days or New Years Day')
     })
 
-    tt.test('returns the days the guild is open without holidays or break week days', ttt => {
+    tt.test('should not include the special 2017-07-03 holiday', ttt => {
       ttt.plan(1)
       const openDays = openDaysBetween(momentDayOnly('2017-05-22'), momentDayOnly('2017-07-21'))
-      ttt.equal(openDays.length, 38, 'should not include summer break or Memorial Day')
+      ttt.equal(openDays.length, 37, 'should not include summer break or holidays')
     })
   })
 

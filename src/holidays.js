@@ -91,7 +91,11 @@ export const christmasEve = date => _holidayForDate(11, 24, date)
 export const christmasDay = date => _holidayForDate(11, 25, date)
 
 const _holidaysAfter = date => {
-  return [
+  // handle special-case of 2017-07-03 holidays
+  const start = momentDayOnly(date)
+  const specialCases = start.year() === 2017 ? [momentDayOnly('2017-07-03').toDate()] : []
+
+  return specialCases.concat([
     newYearsDay(date),
     mlkJrDay(date),
     presidentsDay(date),
@@ -105,7 +109,7 @@ const _holidaysAfter = date => {
     thanksgivingFriday(date),
     christmasEve(date),
     christmasDay(date),
-  ]
+  ])
     .map(d => momentDayOnly(d))
     .sort((a, b) => {
       if (a.isBefore(b)) {
