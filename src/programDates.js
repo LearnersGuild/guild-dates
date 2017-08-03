@@ -85,16 +85,16 @@ const _numBreakWeeks = (startDate, weeks) => {
 }
 
 const _addProgramWeeks = (startDate, weeks) => {
+  const numWeeksAdded = weeks + _numBreakWeeks(startDate, weeks)
   return momentDayOnly(startDate)
     .clone()
-    .add(weeks + _numBreakWeeks(startDate, weeks), 'weeks')
+    .add(numWeeksAdded - 1, 'weeks')
+    .day('Friday')
 }
 
 export const expectedExitDate = startDate => {
-  return _addProgramWeeks(momentDayOnly(startDate), MAX_PROGRAM_WEEKS)
-    .clone()
-    .day('Friday')
-    .toDate()
+  const endOfProgramWeeks = _addProgramWeeks(momentDayOnly(startDate), MAX_PROGRAM_WEEKS)
+  return endOfProgramWeeks.toDate()
 }
 export const defaultExpectedExitDate = expectedExitDate(defaultStartDate)
 
@@ -130,27 +130,23 @@ export const openDaysBetween = (startDate, endDate) => {
 // --- ISA dates
 
 export const isaCancellationDate = startDate => {
-  return _addProgramWeeks(momentDayOnly(startDate), CANCELLATION_WEEKS)
-    .clone()
-    .day('Monday')
-    .toDate()
+  const endOfCancellationWeeks = _addProgramWeeks(momentDayOnly(startDate), CANCELLATION_WEEKS)
+  return _nextMonday(endOfCancellationWeeks).toDate()
 }
 export const defaultISACancellationDate = isaCancellationDate(defaultStartDate)
 
 export const PER_SESSION_WEEKS = 8
 
 export const isaSessionStartDate = (startDate, sessionIdx = 0) => {
-  return _addProgramWeeks(momentDayOnly(startDate), sessionIdx * PER_SESSION_WEEKS)
-    .clone()
-    .day('Monday')
-    .toDate()
+  const numWeeksBeforeStart = sessionIdx * PER_SESSION_WEEKS
+  const fridayBeforeStart = _addProgramWeeks(momentDayOnly(startDate), numWeeksBeforeStart)
+  return _nextMonday(fridayBeforeStart).toDate()
 }
 
 export const isaSessionEndDate = (startDate, sessionIdx = 0) => {
-  return _addProgramWeeks(momentDayOnly(startDate), (sessionIdx + 1) * PER_SESSION_WEEKS - 1)
-    .clone()
-    .day('Friday')
-    .toDate()
+  const numTotalSessionWeeks = (sessionIdx + 1) * PER_SESSION_WEEKS
+  const fridayFinalWeek = _addProgramWeeks(momentDayOnly(startDate), numTotalSessionWeeks)
+  return fridayFinalWeek.toDate()
 }
 
 export const numDaysInISASession = (startDate, sessionIdx = 0) => {
@@ -190,4 +186,12 @@ function _firstMondayOfMonth(date) {
       .startOf('isoWeek')
       .add(7, 'day')
   )
+}
+
+function _nextMonday(date) {
+  const result = momentDayOnly(date).clone()
+  if (result.isoWeekday() === 1) {
+    return result // Monday
+  }
+  return result.endOf('isoWeek').add(1, 'day')
 }
