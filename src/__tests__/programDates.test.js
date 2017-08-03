@@ -29,6 +29,13 @@ test('src/programDates', t => {
       ttt.true(momentDayOnly(sd).isSame(expected), 'should be 2017-04-17')
     })
 
+    tt.test('returns first Monday of same month if still in the future', ttt => {
+      ttt.plan(1)
+      const sd = nextStartDate('2017-08-03')
+      const expected = momentDayOnly('2017-08-07')
+      ttt.true(momentDayOnly(sd).isSame(expected), 'should be first Monday of same month')
+    })
+
     tt.test('returns first Monday of next month if not a holiday', ttt => {
       ttt.plan(1)
       const sd = nextStartDate('2017-09-15')

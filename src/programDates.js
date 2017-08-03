@@ -41,27 +41,30 @@ const _legacyStartDate = date => {
 }
 
 export const nextStartDate = (date = new Date()) => {
-  const input = momentDayOnly(date)
-  if (input.isBefore(_legacyStartDates[_legacyStartDates.length - 1])) {
-    return _legacyStartDate(date)
+  const inputDate = momentDayOnly(date)
+  if (inputDate.isBefore(_legacyStartDates[_legacyStartDates.length - 1])) {
+    return _legacyStartDate(inputDate)
   }
 
-  const firstMondayNextMonth = input
-    .clone()
-    .endOf('month')
-    .endOf('isoWeek')
-    .add(1, 'day')
-  const output = momentDayOnly(firstMondayNextMonth)
+  let startDate
+  const firstMondayMonth = _firstMondayOfMonth(inputDate)
+  const firstMondayMonthInFuture = firstMondayMonth.date() >= inputDate.date()
+  if (firstMondayMonthInFuture) {
+    startDate = firstMondayMonth
+  } else {
+    const firstDayNextMonth = inputDate.clone().endOf('month').add(1, 'day')
+    startDate = _firstMondayOfMonth(firstDayNextMonth)
+  }
 
   while (
-    isHoliday(output) ||
-    isDuringBreakWeek(output) ||
-    output.day() === 0 ||
-    output.day() === 6) {
-    output.add(1, 'day')
+    isHoliday(startDate) ||
+    isDuringBreakWeek(startDate) ||
+    startDate.isoWeekday() === 6 ||
+    startDate.isoWeekday() === 7) {
+    startDate.add(1, 'day')
   }
 
-  return output.toDate()
+  return startDate.toDate()
 }
 export const defaultStartDate = nextStartDate()
 
@@ -177,4 +180,14 @@ export const stipendPaymentDatesBetween = (startDate, endDate) => {
     stipendPaymentDate.add(2, 'weeks')
   }
   return paymentDates.map(m => m.toDate())
+}
+
+function _firstMondayOfMonth(date) {
+  return momentDayOnly(
+    date
+      .clone()
+      .startOf('month')
+      .startOf('isoWeek')
+      .add(7, 'day')
+  )
 }
