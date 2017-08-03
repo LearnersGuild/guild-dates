@@ -29,7 +29,9 @@ test('src/holidays', t => {
     tt.test('returns next New Year\'s day if no date is given', ttt => {
       ttt.plan(1)
       const nextNewYears = newYearsDay()
-      const expected = momentDayOnly(new Date((new Date()).getFullYear() + 1, 0, 1))
+      const now = new Date()
+      const expectedUTC = Date.UTC(now.getUTCFullYear() + 1, 0, 1)
+      const expected = momentDayOnly(new Date(expectedUTC))
       ttt.true(momentDayOnly(nextNewYears).isSame(expected), 'should be the next New Year\'s Day')
     })
 

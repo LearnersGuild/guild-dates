@@ -6,6 +6,7 @@ export const momentDayOnly = date => {
     throw new Error(`${date} is not a valid date`)
   }
   return dayOnly
+    .utc()
     .hour(0)
     .minute(0)
     .second(0)
@@ -13,7 +14,7 @@ export const momentDayOnly = date => {
 }
 
 export const formatDate = date => {
-  return moment(date).format('ddd DD MMM YYYY')
+  return moment(date).utc().format('ddd DD MMM YYYY')
 }
 
 export const throwsIfInvalidDate = func => {
