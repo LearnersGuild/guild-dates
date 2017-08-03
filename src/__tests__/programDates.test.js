@@ -29,13 +29,6 @@ test('src/programDates', t => {
       ttt.true(momentDayOnly(sd).isSame(expected), 'should be 2017-04-17')
     })
 
-    tt.test('returns first Monday of same month if still in the future', ttt => {
-      ttt.plan(1)
-      const sd = nextStartDate('2017-08-03')
-      const expected = momentDayOnly('2017-08-07')
-      ttt.true(momentDayOnly(sd).isSame(expected), 'should be first Monday of same month')
-    })
-
     tt.test('returns first Monday of next month if not a holiday', ttt => {
       ttt.plan(1)
       const sd = nextStartDate('2017-09-15')
@@ -56,14 +49,14 @@ test('src/programDates', t => {
 
     tt.test('returns Friday of (startDate + 41 weeks) if 1 break week is encountered', ttt => {
       ttt.plan(1)
-      const exit = expectedExitDate(new Date('2016-07-11'))
-      ttt.true(momentDayOnly(exit).isSame('2017-04-28', 'day'), 'should be Friday of 41st week')
+      const exit = expectedExitDate(new Date('2017-08-07'))
+      ttt.true(momentDayOnly(exit).isSame('2018-05-18', 'day'), 'should be Friday of 41st week')
     })
 
     tt.test('returns Friday of (startDate + 42 weeks) if both break weeks are encountered', ttt => {
       ttt.plan(1)
       const exit = expectedExitDate(new Date('2017-05-08'))
-      ttt.true(momentDayOnly(exit).isSame('2018-03-02', 'day'), 'should be Friday of 42nd week')
+      ttt.true(momentDayOnly(exit).isSame('2018-02-23', 'day'), 'should be Friday of 42nd week')
     })
   })
 
@@ -131,7 +124,7 @@ test('src/programDates', t => {
 
     tt.test('returns the end date of the session (0 indexed) for a given program start date', ttt => {
       ttt.plan(3)
-      ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 0)).isSame('2017-01-27'), 'should be Friday of 1st week, not counting break weeks')
+      ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 0)).isSame('2017-01-27'), 'should be Friday of 8th week, not counting break weeks')
       ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 2)).isSame('2017-05-19'), 'should be Friday of 24th week, not counting break weeks')
       ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 3)).isSame('2017-07-21'), 'should be Friday of 32nd week, not counting break weeks')
     })
