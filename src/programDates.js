@@ -156,6 +156,10 @@ export const numDaysInISASession = (startDate, sessionIdx = 0) => {
   return openDays.length
 }
 
+export const isaSessionStartDates = startDate => {
+  return Array.from(Array(5).keys()).map(sessionIdx => isaSessionStartDate(startDate, sessionIdx))
+}
+
 // --- stipend payment dates
 
 const _stipendConfig = {
@@ -193,5 +197,5 @@ function _nextMonday(date) {
   if (result.isoWeekday() === 1) {
     return result // Monday
   }
-  return result.endOf('isoWeek').add(1, 'day')
+  return momentDayOnly(result.endOf('isoWeek').add(1, 'day'))
 }

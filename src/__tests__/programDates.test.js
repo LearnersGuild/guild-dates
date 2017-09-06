@@ -14,6 +14,7 @@ import {
   isaCancellationDate,
   isaSessionStartDate,
   isaSessionEndDate,
+  isaSessionStartDates,
   numDaysInISASession,
   stipendPaymentDatesBetween,
 } from '../programDates'
@@ -127,6 +128,20 @@ test('src/programDates', t => {
       ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 0)).isSame(momentDayOnly('2017-01-27')), 'should be Friday of 8th week, not counting break weeks')
       ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 2)).isSame(momentDayOnly('2017-05-19')), 'should be Friday of 24th week, not counting break weeks')
       ttt.true(momentDayOnly(isaSessionEndDate(new Date('2016-11-28'), 3)).isSame(momentDayOnly('2017-07-21')), 'should be Friday of 32nd week, not counting break weeks')
+    })
+  })
+
+  t.test('isaSessionStartDates', tt => {
+    tt.test('throws if the given start date is not a date', throwsIfInvalidDate(isaSessionStartDates))
+
+    tt.test('returns the 5 session start dates for a given program start date', ttt => {
+      ttt.plan(6)
+      const ssDates = isaSessionStartDates(new Date('2016-11-28'))
+      ttt.equal(ssDates.length, 5, 'should have 5 elements')
+      const expectedDateStrs = ['2016-11-28', '2017-01-30', '2017-03-27', '2017-05-22', '2017-07-24']
+      expectedDateStrs.forEach((dateStr, idx) => {
+        ttt.true(momentDayOnly(ssDates[idx]).isSame(momentDayOnly(dateStr)), `should be ${dateStr}`)
+      })
     })
   })
 
